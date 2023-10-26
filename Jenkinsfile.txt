@@ -1,5 +1,6 @@
 pipeline {
     agent any
+
     stages {
         stage('Build') {
             sh "mvn clean install -Dmaven.test.skip=true"
@@ -24,9 +25,6 @@ pipeline {
         stage('Archive Artifacts') {
             archiveArtifacts artifacts: 'target/*.war'
         }
-    }
-
-    stages{
         stage('Deployment'){
             deploy adapters: [tomcat9(credentialsId: 'tomcat.admin', path: '', url: 'http://localhost:2020/')], contextPath: demoSpringBoot, war: 'target/*.war'
         }
