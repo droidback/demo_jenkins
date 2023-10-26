@@ -36,7 +36,7 @@ pipeline {
         }
         stage('Deployment'){
             steps{
-                deploy adapters: [tomcat9(credentialsId: 'tomcat.admin', path: '', url: 'http://localhost:2020/')], contextPath: demoSpringBoot, war: 'target/*.war'
+                deploy adapters: [tomcat9(credentialsId: 'tomcat.admin', path: '', url: 'http://localhost:2020/')], contextPath: 'demoSpringBoot', war: 'target/*.war'
             }
         }
     }
