@@ -9,7 +9,9 @@ pipeline {
         }
 
         stage('Test cases Execution') {
-            sh "mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install -Pcoverage-per-test"
+            steps{
+                sh "mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install -Pcoverage-per-test"
+            }
         }
 
         stage('Sonar Analysis') {
@@ -25,10 +27,14 @@ pipeline {
         }
 
         stage('Archive Artifacts') {
-            archiveArtifacts artifacts: 'target/*.war'
+            steps{
+                archiveArtifacts artifacts: 'target/*.war'
+            }
         }
         stage('Deployment'){
-            deploy adapters: [tomcat9(credentialsId: 'tomcat.admin', path: '', url: 'http://localhost:2020/')], contextPath: demoSpringBoot, war: 'target/*.war'
+            steps{
+                deploy adapters: [tomcat9(credentialsId: 'tomcat.admin', path: '', url: 'http://localhost:2020/')], contextPath: demoSpringBoot, war: 'target/*.war'
+            }
         }
     }
 }
